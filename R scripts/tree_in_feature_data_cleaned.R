@@ -14,7 +14,7 @@ pacman::p_load(
   rgdal,
   plyr
 )
-
+ 
 ## importing veg_plot data
 
 tree_in_feature <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/tree_in_feature_properties/Tree_in_Feature.shp")

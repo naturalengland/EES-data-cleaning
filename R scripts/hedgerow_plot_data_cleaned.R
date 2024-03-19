@@ -14,7 +14,7 @@ pacman::p_load(
   rgdal,
   plyr
 )
-
+ 
 ## importing hedgerow_plot data
 
 hedgerow_plot <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/Hedgerow_Plot_properties_jan_24/Hedgerow_Plots.shp")

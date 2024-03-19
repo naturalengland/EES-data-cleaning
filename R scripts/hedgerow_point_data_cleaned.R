@@ -1,6 +1,6 @@
 # required packages installation
 if(!require(pacman)) install.packages("pacman")
-
+ 
 pacman::p_load(
   sf, 
   sp, 
@@ -11,7 +11,7 @@ pacman::p_load(
   tidyverse,
   terra,
   rgeos,
-  rgdal,
+  rgdal, 
   plyr
 )
 
