@@ -14,10 +14,13 @@ pacman::p_load(
   rgdal,
   plyr
 )
+
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
  
 ## importing veg_plot data
 
-veg_plot <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/vegplot_properties_jan24/Vegetation_Plot.shp")
+veg_plot <- sf::read_sf(veg_plot_properties_2023_path)
 summary(veg_plot)
 
 # no QA for veg plots in Sweet
@@ -25,7 +28,7 @@ summary(veg_plot)
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- readxl::read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- readxl::read_excel(test_monads_2023_path)
 
 veg_plot_2 <- veg_plot[!(veg_plot$monad_ref %in% test_monads$Sample),]
 
@@ -43,7 +46,7 @@ write.csv()
 
 ## so we have - 949 veg_plot plots over 250 monads in total
 
-st_write(veg_plot_2, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Veg plots/veg_plot_properties.shp")
+st_write(veg_plot_2, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Veg plots/veg_plot_properties.shp")
 
 ## below I'm trying to get the fake riparian ids (dummy monads, test monads etc)
 
@@ -51,7 +54,7 @@ fake_veg_plot_ids <- setdiff(veg_plot$veg_plot_i, veg_plot_2$veg_plot_i)
 
 # importing related tables data 
 library(readxl)
-setwd("C:/Users/m1011479/Documents/Data analysis/veg plot related tables")
+setwd(veg_plot_related_2023_filepath)
 veg_plot.related <- list.files(pattern='vegplot_jan24')
 veg_plot.related_2 <- lapply(veg_plot.related, read_excel)
 
@@ -67,10 +70,10 @@ veg_plot.related_2[[3]] <- veg_plot.related_2[[3]][!veg_plot.related_2[[3]]$'Veg
 
 # now exporting
 
-write.csv(veg_plot.related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Veg plots/invasive_species.csv")
-write.csv(veg_plot.related_2[[2]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Veg plots/vascular_plants.csv")
-write.csv(veg_plot.related_2[[3]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Veg plots/vegetation_surface.csv")
-#write.csv(riparian.related_2[[4]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Riparian/vascular_plants.xls")
+write.csv(veg_plot.related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Veg plots/invasive_species.csv")
+write.csv(veg_plot.related_2[[2]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Veg plots/vascular_plants.csv")
+write.csv(veg_plot.related_2[[3]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Veg plots/vegetation_surface.csv")
+#write.csv(riparian.related_2[[4]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Riparian/vascular_plants.xls")
 
 
 veg_plots_EPM <- veg_plot_2 %>% filter((feature_re=='NY8523_V2'))

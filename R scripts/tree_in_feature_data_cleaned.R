@@ -15,9 +15,12 @@ pacman::p_load(
   plyr
 )
  
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
+
 ## importing veg_plot data
 
-tree_in_feature <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/tree_in_feature_properties/Tree_in_Feature.shp")
+tree_in_feature <- sf::read_sf(tree_in_feature_properties_2023_path)
 summary(tree_in_feature)
 
 # no QA for tree in feature
@@ -25,7 +28,7 @@ summary(tree_in_feature)
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 tree_in_feature_2 <- tree_in_feature[!(tree_in_feature$monad_ref %in% test_monads$Sample),]
 
@@ -42,7 +45,7 @@ length(unique(tree_in_feature_2$monad_ref))
 
 ## so we have - 80 trees over 43 monads in total
 
-st_write(tree_in_feature_2, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Tree in feature/tree_in_feature_properties.shp")
+st_write(tree_in_feature_2, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Tree in feature/tree_in_feature_properties.shp")
 
 ## below I'm trying to get the fake riparian ids (dummy monads, test monads etc)
 
@@ -50,7 +53,7 @@ fake_tree_in_feature_ids <- setdiff(tree_in_feature$tree_in_fe, tree_in_feature_
 
 # importing related tables data 
 library(readxl)
-setwd("C:/Users/m1011479/Documents/Data analysis/Tree in feature related tables")
+setwd(tree_in_feature_related_2023_filepath)
 tree_in_feature.related <- list.files(pattern='tree_in_feature_jan24')
 tree_in_feature.related_2 <- lapply(tree_in_feature.related, read_excel)
 
@@ -63,4 +66,4 @@ tree_in_feature.related_2[[1]] <- tree_in_feature.related_2[[1]][!tree_in_featur
 
 # now exporting
 
-write.csv(tree_in_feature.related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Tree in feature/fauna.csv")
+write.csv(tree_in_feature.related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Tree in feature/fauna.csv")

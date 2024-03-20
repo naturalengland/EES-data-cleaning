@@ -15,9 +15,12 @@ pacman::p_load(
   plyr
 )
 
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
+
 ## importing riparian data
 
-riparian <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/Riparian properties data jan24/Riparian_Plots.shp")
+riparian <- sf::read_sf(riparian_properties_2023_path)
 summary(riparian)
 
 # removing QA
@@ -25,7 +28,7 @@ riparian <- subset(riparian, (as.character(riparian_p) == as.character(qa_source
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 riparian_2 <- riparian[!(riparian$monad_ref %in% test_monads$Sample),]
 
@@ -41,7 +44,7 @@ length(unique(riparian_2$monad_ref))
 
 ## so we have - 244 riparian plots over 113 monads in total
 
-st_write(riparian_2, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Riparian/riparian_properties.shp")
+st_write(riparian_2, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Riparian/riparian_properties.shp")
 
 ## below I'm trying to get the fake riparian ids (dummy monads, test monads etc)
 
@@ -49,7 +52,7 @@ fake_riparian_ids <- setdiff(riparian$riparian_p, riparian_2$riparian_p)
 
 # importing related tables data 
 library(readxl)
-setwd("C:/Users/m1011479/Documents/Data analysis/riparian related tables")
+setwd(riparian_related_2023_filepath)
 riparian.related <- list.files(pattern='riparian_jan24')
 riparian.related_2 <- lapply(riparian.related, read_excel)
 
@@ -65,9 +68,9 @@ riparian.related_2[[4]] <- riparian.related_2[[4]][!riparian.related_2[[4]]$'Rip
 
 # now exporting
 
-write.csv(riparian.related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Riparian/invasive_species.csv")
-write.csv(riparian.related_2[[2]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Riparian/modification_management.csv")
-write.csv(riparian.related_2[[3]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Riparian/sward_structure.csv")
-write.csv(riparian.related_2[[4]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Riparian/vascular_plants.csv")
+write.csv(riparian.related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Riparian/invasive_species.csv")
+write.csv(riparian.related_2[[2]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Riparian/modification_management.csv")
+write.csv(riparian.related_2[[3]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Riparian/sward_structure.csv")
+write.csv(riparian.related_2[[4]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Riparian/vascular_plants.csv")
 
 

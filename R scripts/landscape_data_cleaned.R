@@ -15,11 +15,14 @@ pacman::p_load(
   plyr
 )
 
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
+
 ## QA explore
 
 ## importing HR Ponds Properties data
 
-landscape <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/landscape_properties_jan24/Landscape_Surveys.shp")
+landscape <- sf::read_sf(landscape_properties_2023_path)
 summary(landscape)
 
 ## no QA id for landscape - need to investigate more
@@ -27,7 +30,7 @@ summary(landscape)
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 landscape_2 <- landscape[!(landscape$monad_ref %in% test_monads$Sample),]
 
@@ -43,7 +46,7 @@ length(unique(landscape_2$monad_ref))
 
 ## so we have - 1233 squares over 210 monads in total
 
-st_write(landscape_2, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/landscape_properties.shp")
+st_write(landscape_2, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/landscape_properties.shp")
 
 ## below I'm trying to get the fake pond_ids (dummy monads, test monads etc)
 
@@ -51,7 +54,7 @@ fake_landscape_ids <- setdiff(landscape$landscape_, landscape_2$landscape_)
 
 # importing related tables data 
 library(readxl)
-setwd("C:/Users/m1011479/Documents/Data analysis/Landscape related tables")
+setwd("landscape_related_2023_filepath")
 landscape.related <- list.files(pattern='landscape_jan24')
 landscape.related_2 <- lapply(landscape.related, read_excel)
 
@@ -73,14 +76,14 @@ landscape.related_2[[10]] <- landscape.related_2[[10]][!landscape.related_2[[10]
 
 # now exporting
 
-write.csv(landscape.related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/boundary_trees.csv")
-write.csv(landscape.related_2[[2]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/field_boundary.csv")
-write.csv(landscape.related_2[[3]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/historic_feature.csv")
-write.csv(landscape.related_2[[4]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/infrastructure_renewables.csv")
-write.csv(landscape.related_2[[5]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/landform.csv")
-write.csv(landscape.related_2[[6]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/land_use.csv")
-write.csv(landscape.related_2[[7]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/natural_noise.csv")
-write.csv(landscape.related_2[[8]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/pressure_of_change.csv")
-write.csv(landscape.related_2[[9]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/settlement_development.csv")
-write.csv(landscape.related_2[[10]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Landscape/water.csv")
+write.csv(landscape.related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/boundary_trees.csv")
+write.csv(landscape.related_2[[2]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/field_boundary.csv")
+write.csv(landscape.related_2[[3]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/historic_feature.csv")
+write.csv(landscape.related_2[[4]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/infrastructure_renewables.csv")
+write.csv(landscape.related_2[[5]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/landform.csv")
+write.csv(landscape.related_2[[6]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/land_use.csv")
+write.csv(landscape.related_2[[7]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/natural_noise.csv")
+write.csv(landscape.related_2[[8]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/pressure_of_change.csv")
+write.csv(landscape.related_2[[9]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/settlement_development.csv")
+write.csv(landscape.related_2[[10]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Landscape/water.csv")
 

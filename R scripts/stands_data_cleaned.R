@@ -14,10 +14,13 @@ pacman::p_load(
   rgdal,
   plyr
 )
+
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
  
 ## importing veg_plot data
 
-stands <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/stands_properties_jan24/Stands.shp")
+stands <- sf::read_sf(stands_properties_2023_path)
 summary(stands)
 
 # no QA for stands
@@ -25,7 +28,7 @@ summary(stands)
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 stands_2 <- stands[!(stands$monad_ref %in% test_monads$Sample),]
 
@@ -46,7 +49,7 @@ length(unique(stands_3$monad_ref))
 
 ## so we have - 1844 stands over 216 monads in total
 
-st_write(stands_3, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Stands/stands_properties.shp")
+st_write(stands_3, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Stands/stands_properties.shp")
 
 ## below I'm trying to get the fake riparian ids (dummy monads, test monads etc)
 
@@ -72,10 +75,10 @@ stands.related_2[[5]] <- stands.related_2[[5]][!stands.related_2[[5]]$'Stand ID'
 
 # now exporting
 
-write.csv(stands.related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Stands/component_habitats.csv")
-write.csv(stands.related_2[[2]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Stands/dwarf_shrub_age_structure.csv")
-write.csv(stands.related_2[[3]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Stands/evidence_of_plastics.csv")
-write.csv(stands.related_2[[4]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Stands/roundrat.csv")
-write.csv(stands.related_2[[5]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Stands/land_use.csv")
+write.csv(stands.related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Stands/component_habitats.csv")
+write.csv(stands.related_2[[2]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Stands/dwarf_shrub_age_structure.csv")
+write.csv(stands.related_2[[3]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Stands/evidence_of_plastics.csv")
+write.csv(stands.related_2[[4]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Stands/roundrat.csv")
+write.csv(stands.related_2[[5]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Stands/land_use.csv")
 ## NEED TO DO THE SURFACES TOO
 

@@ -15,9 +15,12 @@ pacman::p_load(
   plyr
 )
 
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
+
 ## importing veg_plot data
 
-lone_trees <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/lonetrees_properties_jan24/Lone_Trees.shp")
+lone_trees <- sf::read_sf(lone_trees_properties_2023_path)
 summary(lone_trees)
 
 # removing QA
@@ -25,7 +28,7 @@ lone_trees <- subset(lone_trees, (as.character(lone_tree_) == as.character(qa_so
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 lone_trees_2 <- lone_trees[!(lone_trees$monad_ref %in% test_monads$Sample),]
 
@@ -41,7 +44,7 @@ length(unique(lone_trees_2$monad_ref))
 
 ## so we have - 1610 trees over 203 monads in total
 
-st_write(lone_trees_2, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/lone_tree_properties.shp")
+st_write(lone_trees_2, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/lone_tree_properties.shp")
 
 ## below I'm trying to get the fake riparian ids (dummy monads, test monads etc)
 
@@ -49,7 +52,7 @@ fake_lone_trees_ids <- setdiff(lone_trees$lone_tree_, lone_trees_2$lone_tree_)
 
 # importing related tables data 
 library(readxl)
-setwd("C:/Users/m1011479/Documents/Data analysis/lone tree related tables")
+setwd(lone_trees_related_2023_filepath)
 lone_trees.related <- list.files(pattern='lonetrees_jan24')
 lone_trees.related_2 <- lapply(lone_trees.related, read_excel)
 
@@ -70,12 +73,12 @@ lone_trees.related_2[[9]] <- lone_trees.related_2[[9]][!lone_trees.related_2[[9]
 
 # now exporting
 
-write.csv(lone_trees.related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/accesslimitations.csv")
-write.csv(lone_trees.related_2[[2]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/deadwood_attached.csv")
-write.csv(lone_trees.related_2[[3]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/epiphytes.csv")
-write.csv(lone_trees.related_2[[4]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/fungi.csv")
-write.csv(lone_trees.related_2[[5]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/bioindicator_lichens.csv")
-write.csv(lone_trees.related_2[[6]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/tree_disease.csv")
-write.csv(lone_trees.related_2[[7]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/tree_health.csv")
-write.csv(lone_trees.related_2[[8]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/tree_management.csv")
-write.csv(lone_trees.related_2[[9]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Lone trees/tree_fauna.csv")
+write.csv(lone_trees.related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/accesslimitations.csv")
+write.csv(lone_trees.related_2[[2]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/deadwood_attached.csv")
+write.csv(lone_trees.related_2[[3]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/epiphytes.csv")
+write.csv(lone_trees.related_2[[4]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/fungi.csv")
+write.csv(lone_trees.related_2[[5]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/bioindicator_lichens.csv")
+write.csv(lone_trees.related_2[[6]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/tree_disease.csv")
+write.csv(lone_trees.related_2[[7]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/tree_health.csv")
+write.csv(lone_trees.related_2[[8]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/tree_management.csv")
+write.csv(lone_trees.related_2[[9]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Lone trees/tree_fauna.csv")

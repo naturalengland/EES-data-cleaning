@@ -15,9 +15,12 @@ pacman::p_load(
   plyr
 )
 
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
+
 ## importing veg_plot data
 
-squares <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/squares_properties_jan24/Squares.shp")
+squares <- sf::read_sf(squares_properties_2023_path)
 summary(squares) 
 
 # no QA for squares
@@ -25,7 +28,7 @@ summary(squares)
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 squares_2 <- squares[!(squares$monad_ref %in% test_monads$Sample),]
 

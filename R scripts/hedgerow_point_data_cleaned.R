@@ -15,9 +15,12 @@ pacman::p_load(
   plyr
 )
 
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
+
 ## importing riparian data
 
-hedgerow_point <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/hedgerow_point_properties_jan24/Hedgerow_Plot_Point.shp")
+hedgerow_point <- sf::read_sf(hedgerow_point_properties_2023_path)
 summary(hedgerow_point)
 
 # removing QA
@@ -25,7 +28,7 @@ hedgerow_point <- subset(hedgerow_point, (as.character(hedgerow_p) == as.charact
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 # hedgerow points have no monad ref - need to bind with hedgerow plot data to get monads
 # importing hedgerow plot data
@@ -51,7 +54,7 @@ length(unique(hedgerow_point_2$monad_ref))
 
 ## so we have - 441 hedgerow plots over 160 monads in total
 
-st_write(hedgerow_point_2, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Hedgerow points/hedgerow_point_properties.shp")
+st_write(hedgerow_point_2, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/hedgerow_point_properties.shp")
 
 ## below I'm trying to get the fake pond_ids (dummy monads, test monads etc)
 
@@ -59,7 +62,7 @@ fake_hedgerow_point_ids <- setdiff(hedgerow_point$hedgerow_p, hedgerow_point_2$h
 
 # importing related tables data 
 library(readxl)
-setwd("C:/Users/m1011479/Documents/Data analysis/Hedgerow point related tables")
+setwd(hedgerow_point_related_2023_filepath)
 hedgerow_point_related <- list.files(pattern='hedgerow_point_jan24')
 hedgerow_point_related_2 <- lapply(hedgerow_point_related, read_excel)
 
@@ -73,5 +76,5 @@ hedgerow_point_related_2[[1]] <- hedgerow_point_related_2[[1]][!hedgerow_point_r
 
 # now exporting
 
-write.csv(hedgerow_point_related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Hedgerow points/vascularplants.csv")
+write.csv(hedgerow_point_related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Hedgerow points/vascularplants.csv")
 #write.csv(hedgerow_plot_related_2[[2]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Hedgerow plots/fencing.csv")

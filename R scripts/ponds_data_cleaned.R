@@ -15,11 +15,14 @@ pacman::p_load(
   plyr
 )
 
+# Set the below to your own local file source
+source("C:/Users/m1011479/OneDrive - Defra/Documents/R - Analysis of sample/summary_stats_config_local_JJ.R")
+
 ## QA explore
 
 ## importing HR Ponds Properties data
 
-ponds_data <- sf::read_sf("C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Datasets/HR ponds properties jan 24/HR_Ponds.shp")
+ponds_data <- sf::read_sf(ponds_properties_2023_path)
 summary(ponds_data)
 
 ## removing QA monads
@@ -28,7 +31,7 @@ ponds_no_QA <- subset(ponds_data, (as.character(pond_id) == as.character(qa_sour
  
 ## removing test monads and fake monads
 library(readxl)
-test_monads <- read_excel("C:/Users/m1011479/Documents/Data analysis/Test_monads.xlsx")
+test_monads <- read_excel(test_monads_2023_path)
 
 ponds_data_2 <- ponds_no_QA[!(ponds_no_QA$monad_ref %in% test_monads$Sample),]
 
@@ -45,7 +48,7 @@ length(unique(ponds_data_2$monad_ref))
 
 ## so we have - 112 ponds in total (edna yes and no)
 
-st_write(ponds_data_2, "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Ponds/ponds_properties.shp")
+st_write(ponds_data_2, "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Ponds/ponds_properties.shp")
 
 ## now looking at eNDA = YES only
 
@@ -68,7 +71,7 @@ fake_pond_ids <- setdiff(ponds_data$pond_id, ponds_data_2$pond_id)
 
 # importing related tables data 
 library(readxl)
-setwd("C:/Users/m1011479/Documents/Data analysis/HR ponds related tables")
+setwd(ponds_related_2023_filepath)
 ponds.related <- list.files(pattern='ponds_jan24_')
 ponds.related_2 <- lapply(ponds.related, read_excel)
 
@@ -85,11 +88,11 @@ ponds.related_2[[5]] <- ponds.related_2[[5]][!ponds.related_2[[5]]$'Pond ID' %in
 
 # now exporting
 
-write.csv(ponds.related_2[[1]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Ponds/ponds_invasive_species.csv")
-write.csv(ponds.related_2[[2]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Ponds/ponds_pond_management.csv")
-write.csv(ponds.related_2[[3]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Ponds/ponds_tree_surrounding_pond.csv")
-write.csv(ponds.related_2[[4]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Ponds/ponds_tree_within_pond.csv")
-write.csv(ponds.related_2[[5]], "C:/Users/m1011479/Documents/Data analysis/Cleaned data/Ponds/ponds_vegetation_species.csv")
+write.csv(ponds.related_2[[1]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Ponds/ponds_invasive_species.csv")
+write.csv(ponds.related_2[[2]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Ponds/ponds_pond_management.csv")
+write.csv(ponds.related_2[[3]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Ponds/ponds_tree_surrounding_pond.csv")
+write.csv(ponds.related_2[[4]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Ponds/ponds_tree_within_pond.csv")
+write.csv(ponds.related_2[[5]], "C:/Users/m1011479/OneDrive - Defra/Working Group - Data Analysis/Data Analysis Planning Group/Data cleaning/cleaned sweet data/Ponds/ponds_vegetation_species.csv")
 
 # just checking how many ponds I have here and if it's correct. Should be about 64 I think
 
