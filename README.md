@@ -1,6 +1,8 @@
 # EES-data-cleaning
 Scripts to clean Sweet data
 
+There is a config file which you can download and edit to match your filepaths. Please do not then push this to git, just keep it stored locally.
+
 This repository contains the scripts used to clean data which comes out of sweet. 
 There is one script file per feature, and each file contains code to clean both properties data and related tables data.
 The cleaning process includes: 
